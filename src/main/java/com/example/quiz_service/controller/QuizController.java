@@ -1,9 +1,10 @@
 package com.example.quiz_service.controller;
 
 
-import com.example.quizzapp.model.QuestionWrapper;
-import com.example.quizzapp.model.Response;
-import com.example.quizzapp.service.QuizService;
+import com.example.quiz_service.model.QuestionWrapper;
+import com.example.quiz_service.model.QuizDto;
+import com.example.quiz_service.model.Response;
+import com.example.quiz_service.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,10 @@ public class QuizController {
 
     @Autowired
     QuizService quizService;
+
     @PostMapping("create")
-    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numQ, @RequestParam String title){
-        return quizService.createQuiz(category, numQ, title);
+    public ResponseEntity<String> createQuiz(@RequestBody QuizDto quizDto){
+        return quizService.createQuiz(quizDto.getCategoryName(), quizDto.getNumQuestions(), quizDto.getTitle());
     }
 
     @GetMapping("get/{id}")
