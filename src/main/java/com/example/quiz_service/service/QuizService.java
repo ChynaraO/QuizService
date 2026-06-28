@@ -1,6 +1,7 @@
 package com.example.quiz_service.service;
 
 import com.example.quiz_service.dao.QuizDao;
+import com.example.quiz_service.feign.QuizInterface;
 import com.example.quiz_service.model.QuestionWrapper;
 import com.example.quiz_service.model.Quiz;
 import com.example.quiz_service.model.Response;
@@ -22,8 +23,16 @@ public class QuizService {
 //    @Autowired
 //    QuestionDao questionDao;
 
+    @Autowired
+    QuizInterface quizInterface;
 
     public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
+        List<Integer> questions = quizInterface.getQuestionsForQuiz(category,numQ).getBody();
+        Quiz quiz = new Quiz();
+        quiz.setTitle(title);
+        quiz.setQuestionIds(questions);
+        quizDao.save(quiz);
+
 //        List<Question> questions = questionDao.findRandomQuestionsByCategory(category, numQ);
 //        Quiz quiz = new Quiz();
 //        quiz.setTitle(title);
